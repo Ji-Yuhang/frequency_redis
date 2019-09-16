@@ -1,9 +1,10 @@
 version: '3'
 services:
   redis:
-    image: redis-alpine
+    image: redis:alpine
     container_name: frequency_redis
-    command: redis-server /usr/local/etc/redis/redis.conf
+    command: redis-server
+    #command: redis-server /usr/local/etc/redis/redis.conf
     # links:
       # - frequency
     # links:
@@ -21,11 +22,13 @@ services:
       - "4567:4567"
     # networks:
       # - frequency_network
+    depends_on:
+      - redis
     links:
       - redis
     environment:
       - RAILS_ENV=production
       - RACK_ENV=production
-      - REDIS_URL=redis://redis:6380/2
+      - REDIS_URL=redis://redis:6379/2
 # networks: 
   # - frequency_network
